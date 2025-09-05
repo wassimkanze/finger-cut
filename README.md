@@ -127,11 +127,7 @@ php artisan serve
 - **Mot de passe** : password
 
 ### Employés
-- **Email** : marie.dubois@fingerscut.com
-- **Mot de passe** : password
 
-- **Email** : pierre.martin@fingerscut.com
-- **Mot de passe** : password
 
 ## 🔐 Codes d'Invitation de Test
 
