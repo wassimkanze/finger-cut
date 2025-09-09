@@ -214,5 +214,3 @@ public function store(Request $request): RedirectResponse
 ## 📝 Conclusion
 
 Le système de codes d'invitation résout complètement le problème de sécurité identifié par le professeur tout en ajoutant des fonctionnalités professionnelles avancées. Cette solution démontre une compréhension approfondie des enjeux de sécurité et des bonnes pratiques de développement.
-
-**Code de test disponible :** `TEST1234` (email: test@example.com, rôle: employé)
