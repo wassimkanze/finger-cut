@@ -27,7 +27,13 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        
+        // Check if user is redirected to the correct dashboard based on role
+        if ($user->isAdmin()) {
+            $response->assertRedirect(route('admin.dashboard', absolute: false));
+        } else {
+            $response->assertRedirect(route('employee.dashboard', absolute: false));
+        }
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
