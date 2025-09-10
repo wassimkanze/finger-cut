@@ -1178,8 +1178,24 @@
         function getEventsForDate(dateStr) {
             // Récupérer les événements pour une date donnée depuis le calendrier
             const events = calendar.getEvents();
+            console.log('All events:', events); // Debug
+            console.log('Looking for date:', dateStr); // Debug
+            
             return events.filter(event => {
-                const eventDate = event.start.toISOString().split('T')[0];
+                if (!event.start) return false;
+                
+                // Gérer les événements all-day et avec heure
+                let eventDate;
+                if (event.allDay) {
+                    // Pour les événements all-day, utiliser la date directement
+                    eventDate = event.start.toISOString().split('T')[0];
+                } else {
+                    // Pour les événements avec heure, convertir en date locale
+                    const eventStart = new Date(event.start);
+                    eventDate = eventStart.toISOString().split('T')[0];
+                }
+                
+                console.log('Event date:', eventDate, 'vs target:', dateStr); // Debug
                 return eventDate === dateStr;
             });
         }
