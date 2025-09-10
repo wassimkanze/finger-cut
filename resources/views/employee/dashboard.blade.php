@@ -19,7 +19,6 @@
                 </div>
                 <div class="flex items-center space-x-3">
                     <span class="text-gray-700">Bienvenue, {{ auth()->user()->name }}</span>
-                    @include('components.notifications-dropdown')
                     <a href="{{ route('home') }}" 
                        class="relative group bg-blue-600 text-white w-12 h-12 rounded-full hover:bg-blue-700 transition duration-300 flex items-center justify-center"
                        title="Accueil">

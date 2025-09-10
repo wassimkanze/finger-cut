@@ -30,14 +30,6 @@
                 </div>
                 <div class="flex items-center space-x-3">
                     <span class="text-gray-700">Bienvenue, {{ auth()->user()->name }}</span>
-                    <button onclick="openProfileOptionsModal()" 
-                            class="relative group bg-green-600 text-white w-12 h-12 rounded-full hover:bg-green-700 transition duration-300 flex items-center justify-center"
-                            title="Options du profil">
-                        <i class="fas fa-user-edit text-lg"></i>
-                        <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                            Options du profil
-                        </span>
-                    </button>
                     <a href="{{ route('admin.dashboard') }}" 
                        class="relative group bg-blue-600 text-white w-12 h-12 rounded-full hover:bg-blue-700 transition duration-300 flex items-center justify-center"
                        title="Dashboard">

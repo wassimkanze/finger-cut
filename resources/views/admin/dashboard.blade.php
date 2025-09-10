@@ -19,7 +19,6 @@
                 </div>
                 <div class="flex items-center space-x-3">
                     <span class="text-gray-700">Bienvenue, {{ auth()->user()->name }}</span>
-                    @include('components.notifications-dropdown')
                     <button onclick="openProfileOptionsModal()" 
                             class="relative group bg-green-600 text-white w-12 h-12 rounded-full hover:bg-green-700 transition duration-300 flex items-center justify-center"
                             title="Options du profil">
