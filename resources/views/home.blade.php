@@ -1040,15 +1040,20 @@
         function createParallaxBalls() {
             const container = document.getElementById('parallax-balls');
             const balls = [];
-            const ballCount = 12;
+            const ballCount = 25; // Encore plus de boules pour un effet plus riche
 
             for (let i = 0; i < ballCount; i++) {
                 const ball = document.createElement('div');
-                const size = Math.random() * 25 + 10; // 10-35px
+                const size = Math.random() * 30 + 8; // 8-38px
                 const x = Math.random() * 100; // 0-100% of container width
                 const y = Math.random() * 100; // 0-100% of container height
-                const speed = Math.random() * 0.5 + 0.1; // 0.1-0.6 parallax speed
-                const opacity = Math.random() * 0.08 + 0.02; // 0.02-0.1 opacity
+                const speed = Math.random() * 0.8 + 0.2; // 0.2-1.0 parallax speed
+                const maxOpacity = Math.random() * 0.12 + 0.03; // 0.03-0.15 max opacity
+                
+                // Timing aléatoire pour l'apparition/disparition
+                const fadeInDuration = Math.random() * 3000 + 2000; // 2-5 secondes
+                const fadeOutDuration = Math.random() * 2000 + 1500; // 1.5-3.5 secondes
+                const pulseIntensity = Math.random() * 0.3 + 0.1; // 0.1-0.4 pour la pulsation
 
                 ball.style.cssText = `
                     position: absolute;
@@ -1058,31 +1063,93 @@
                     border-radius: 50%;
                     left: ${x}%;
                     top: ${y}%;
-                    opacity: ${opacity};
+                    opacity: 0;
                     pointer-events: none;
-                    transition: transform 0.1s ease-out;
+                    transition: all 0.1s ease-out;
+                    box-shadow: 0 0 ${size * 0.5}px rgba(255, 255, 255, 0.3);
                 `;
 
-                // Store parallax data
+                // Store animation data
                 ball.dataset.speed = speed;
                 ball.dataset.initialY = y;
+                ball.dataset.maxOpacity = maxOpacity;
+                ball.dataset.fadeInDuration = fadeInDuration;
+                ball.dataset.fadeOutDuration = fadeOutDuration;
+                ball.dataset.pulseIntensity = pulseIntensity;
+                ball.dataset.initialSize = size;
 
                 container.appendChild(ball);
                 balls.push(ball);
             }
 
-            // Parallax effect on scroll
+            // Animation d'apparition/disparition aléatoire
+            function animateBalls() {
+                balls.forEach((ball, index) => {
+                    const delay = Math.random() * 3000; // Délai aléatoire pour chaque boule
+                    
+                    setTimeout(() => {
+                        animateBall(ball);
+                    }, delay + (index * 200)); // Échelonner les animations
+                });
+            }
+
+            function animateBall(ball) {
+                const maxOpacity = parseFloat(ball.dataset.maxOpacity);
+                const fadeInDuration = parseFloat(ball.dataset.fadeInDuration);
+                const fadeOutDuration = parseFloat(ball.dataset.fadeOutDuration);
+                const pulseIntensity = parseFloat(ball.dataset.pulseIntensity);
+                const initialSize = parseFloat(ball.dataset.initialSize);
+
+                function fadeIn() {
+                    ball.style.transition = `opacity ${fadeInDuration}ms ease-in-out, transform ${fadeInDuration}ms ease-in-out`;
+                    ball.style.opacity = maxOpacity;
+                    
+                    // Légère pulsation pendant l'apparition
+                    ball.style.transform = `scale(${1 + pulseIntensity})`;
+                    
+                    setTimeout(() => {
+                        ball.style.transform = `scale(1)`;
+                    }, fadeInDuration / 2);
+                    
+                    setTimeout(fadeOut, fadeInDuration + Math.random() * 2000);
+                }
+
+                function fadeOut() {
+                    ball.style.transition = `opacity ${fadeOutDuration}ms ease-in-out, transform ${fadeOutDuration}ms ease-in-out`;
+                    ball.style.opacity = 0;
+                    ball.style.transform = `scale(${1 - pulseIntensity})`;
+                    
+                    setTimeout(() => {
+                        // Redémarrer le cycle après un délai aléatoire
+                        setTimeout(fadeIn, Math.random() * 4000 + 1000);
+                    }, fadeOutDuration);
+                }
+
+                fadeIn();
+            }
+
+            // Parallax effect on scroll avec réaction à la vitesse
             let ticking = false;
+            let lastScrollY = 0;
+            let scrollVelocity = 0;
+
             function updateParallax() {
                 const scrolled = window.pageYOffset;
-                const rate = scrolled * -0.5;
+                scrollVelocity = Math.abs(scrolled - lastScrollY);
+                lastScrollY = scrolled;
+                
+                const baseRate = scrolled * -0.5;
+                const velocityMultiplier = Math.min(scrollVelocity * 0.1, 2); // Multiplier selon la vitesse
 
                 balls.forEach(ball => {
                     const speed = parseFloat(ball.dataset.speed);
                     const initialY = parseFloat(ball.dataset.initialY);
-                    const newY = initialY + (rate * speed);
+                    const newY = initialY + (baseRate * speed * velocityMultiplier);
                     
-                    ball.style.transform = `translateY(${newY}px)`;
+                    // Ajouter un léger mouvement horizontal basé sur la vitesse
+                    const horizontalOffset = Math.sin(scrolled * 0.01) * speed * 10;
+                    
+                    ball.style.transform = `translate(${horizontalOffset}px, ${newY}px)`;
                 });
 
                 ticking = false;
@@ -1094,6 +1161,21 @@
                     ticking = true;
                 }
             }
+
+            // Démarrer les animations
+            animateBalls();
+            
+            // Redémarrer les animations périodiquement pour plus de variété
+            setInterval(() => {
+                balls.forEach(ball => {
+                    if (Math.random() < 0.3) { // 30% de chance de redémarrer l'animation
+                        ball.style.opacity = 0;
+                        setTimeout(() => {
+                            animateBall(ball);
+                        }, Math.random() * 2000);
+                    }
+                });
+            }, 10000); // Toutes les 10 secondes
 
             window.addEventListener('scroll', requestTick);
         }
