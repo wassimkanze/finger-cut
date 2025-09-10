@@ -337,7 +337,7 @@
                 <!-- Portfolio Item 5 -->
                 <div class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover">
                     <div class="h-64 bg-gradient-to-br from-red-400 to-pink-600 flex items-center justify-center">
-                        <i class="fas fa-concert text-white text-6xl"></i>
+                        <i class="fas fa-microphone text-white text-6xl"></i>
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">Concert</h3>
