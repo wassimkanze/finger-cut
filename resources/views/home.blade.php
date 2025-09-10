@@ -582,9 +582,9 @@
                     </label>
                     
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
+                        <button type="button" onclick="closeLoginModal(); openForgotPasswordModal();" class="text-sm text-blue-600 hover:text-blue-800 transition duration-300">
                             Mot de passe oublié ?
-                        </a>
+                        </button>
                     @endif
                 </div>
 
@@ -738,6 +738,79 @@
                     </button>
                 </p>
             </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="forgotPasswordModalContent">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    <i class="fas fa-key mr-2 text-orange-500"></i>
+                    Mot de passe oublié
+                </h2>
+                <button onclick="closeForgotPasswordModal()" class="text-gray-400 hover:text-gray-600 transition duration-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="mb-6">
+                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-orange-100 rounded-full">
+                    <i class="fas fa-envelope text-orange-600 text-xl"></i>
+                </div>
+                <p class="text-sm text-gray-600 text-center">
+                    Saisissez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+                </p>
+            </div>
+
+            <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+                @csrf
+                
+                <div>
+                    <label for="forgot_email" class="block text-sm font-medium text-gray-700 mb-2">
+                        Adresse email
+                    </label>
+                    <input type="email" 
+                           id="forgot_email"
+                           name="email"
+                           value="{{ old('email') }}"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent @error('email') border-red-500 @enderror"
+                           placeholder="votre@email.com"
+                           required
+                           autofocus>
+                    @error('email')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                
+                @if (session('status'))
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-green-800">
+                                    {{ session('status') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                
+                <div class="flex space-x-3 pt-2">
+                    <button type="button" 
+                            onclick="closeForgotPasswordModal()"
+                            class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
+                        Annuler
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Envoyer le lien
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -904,16 +977,61 @@
             }
         });
 
+        // Forgot Password Modal Functions
+        function openForgotPasswordModal() {
+            const modal = document.getElementById('forgotPasswordModal');
+            const modalContent = document.getElementById('forgotPasswordModalContent');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeForgotPasswordModal() {
+            const modal = document.getElementById('forgotPasswordModal');
+            const modalContent = document.getElementById('forgotPasswordModalContent');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            // Hide modal after animation
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('forgotPasswordModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeForgotPasswordModal();
+            }
+        });
+
         // Close modal with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const loginModal = document.getElementById('loginModal');
                 const registerModal = document.getElementById('registerModal');
+                const forgotPasswordModal = document.getElementById('forgotPasswordModal');
                 
                 if (!loginModal.classList.contains('hidden')) {
                     closeLoginModal();
                 } else if (!registerModal.classList.contains('hidden')) {
                     closeRegisterModal();
+                } else if (!forgotPasswordModal.classList.contains('hidden')) {
+                    closeForgotPasswordModal();
                 }
             }
         });

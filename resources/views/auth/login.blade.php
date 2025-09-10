@@ -1,7 +1,10 @@
 <x-guest-layout>
-    <div x-data="{ showRegisterModal: false }">
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+    <div x-data="{ 
+        showRegisterModal: false, 
+        showForgotPasswordModal: {{ session('show_forgot_password_modal') ? 'true' : 'false' }}
+    }">
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <!-- Message de succès après inscription -->
         @if(session('registered'))
@@ -21,43 +24,37 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
+        <!-- Email Address -->
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
 
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="current-password" />
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
+        <!-- Remember Me -->
+        <div class="block mt-4">
+            <label for="remember_me" class="inline-flex items-center">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            </label>
+        </div>
 
             <div class="flex items-center justify-between mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
                 <div class="flex space-x-3">
                     <button type="button" 
                             @click="showRegisterModal = true"
@@ -71,6 +68,17 @@
             </div>
         </form>
 
+        <!-- Lien mot de passe oublié en dehors du formulaire -->
+        <div class="mt-4 text-center">
+            @if (Route::has('password.request'))
+                <button type="button" 
+                        @click="showForgotPasswordModal = true"
+                        class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    {{ __('Forgot your password?') }}
+                </button>
+            @endif
+        </div>
+
         <!-- Modal d'inscription -->
         <div x-show="showRegisterModal" 
              x-transition:enter="transition ease-out duration-300"
@@ -80,7 +88,7 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
              class="fixed inset-0 z-50 overflow-y-auto" 
-             style="display: none;"
+             x-cloak
              @keydown.escape.window="showRegisterModal = false"
              @click.self="showRegisterModal = false">
             
@@ -264,6 +272,89 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal de réinitialisation de mot de passe  -->
+        <div x-show="showForgotPasswordModal" 
+             class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+             x-cloak
+             @click.self="showForgotPasswordModal = false">
+            
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">
+                        <i class="fas fa-key mr-2 text-orange-500"></i>
+                        Mot de passe oublié
+                    </h3>
+                    <button @click="showForgotPasswordModal = false" 
+                            class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Body -->
+                <div class="mb-4">
+                    <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-orange-100 rounded-full">
+                        <i class="fas fa-envelope text-orange-600 text-xl"></i>
+                    </div>
+                    <p class="text-sm text-gray-600 text-center mb-4">
+                        Saisissez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+                    </p>
+                </div>
+
+                <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+                    @csrf
+                    
+                    <!-- Email -->
+                    <div>
+                        <label for="forgot_email" class="block text-sm font-medium text-gray-700 mb-2">
+                            Adresse email
+                        </label>
+                        <input type="email" 
+                               id="forgot_email"
+                               name="email"
+                               value="{{ old('email') }}"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent @error('email') border-red-500 @enderror"
+                               placeholder="votre@email.com"
+                               required
+                               autofocus>
+                        @error('email')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    
+                    <!-- Message de succès -->
+                    @if (session('status'))
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-green-800">
+                                        {{ session('status') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    
+                    <!-- Boutons -->
+                    <div class="flex space-x-3 pt-2">
+                        <button type="button" 
+                                @click="showForgotPasswordModal = false"
+                                class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors">
+                            Annuler
+                        </button>
+                        <button type="submit" 
+                                class="flex-1 px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Envoyer le lien
+                        </button>
+        </div>
+    </form>
+            </div>
+        </div>
     </div>
 
     <!-- Alpine.js -->
@@ -271,6 +362,11 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS pour x-cloak -->
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
     
     <script>
         // Password Validation Functions for Modal
