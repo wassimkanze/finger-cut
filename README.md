@@ -1,75 +1,59 @@
-# Finger's Cut - Système de Gestion de Production Audiovisuelle
+# Finger's Cut - Système de Gestion d'Événements
 
-## 🎬 Description
+## Description
 
-Finger's Cut est une application web Laravel développée pour la gestion interne d'une entreprise de production audiovisuelle. Le système permet aux administrateurs de gérer les employés, planifier les événements et assigner des tâches, tandis que les employés peuvent consulter leur planning personnel et gérer leurs missions.
+Finger's Cut est une application web développée avec Laravel pour la gestion d'événements d'une agence de production audiovisuelle. Le système permet aux administrateurs de gérer les employés et planifier les événements, tandis que les employés peuvent consulter leur planning et gérer leurs tâches.
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
-### 🔐 Authentification et Autorisation
-- Système d'authentification complet avec Laravel Breeze
+### Authentification et Sécurité
+- Système d'authentification avec Laravel Breeze
 - Gestion des rôles (Admin/Employé)
-- Middleware de protection des routes
-- Redirection automatique basée sur le rôle
-- **Système de codes d'invitation** pour l'inscription sécurisée
-- **Validation de mot de passe robuste** (majuscules, minuscules, chiffres, caractères spéciaux)
-- **Modals d'inscription** intégrés dans l'interface
+- Codes d'invitation pour l'inscription sécurisée
+- Validation de mots de passe robuste
+- Modals d'inscription intégrés
 
-### 👥 Gestion des Utilisateurs
-- **Dashboard Admin** avec statistiques complètes
+### Gestion des Utilisateurs
+- Dashboard admin avec statistiques
 - Gestion des utilisateurs (création, modification, désactivation)
+- Système de codes d'invitation
 - Anonymisation RGPD des comptes désactivés
-- Système de contact entre admin et employés
-- **Gestion des codes d'invitation** (génération, révocation, suivi)
-- **Inscription contrôlée** avec validation en temps réel
 
-### 📅 Planning et Événements
-- **Interface de planning** avec FullCalendar
+### Planning et Événements
+- Interface de planning avec FullCalendar
 - Création, modification et suppression d'événements
 - Détection de conflits d'emploi du temps
 - Assignation d'employés aux événements
-- Gestion des adresses complètes
-- Statuts d'événements (planifié, en cours, terminé, annulé)
+- Gestion des statuts d'événements
 
-### 👨‍💼 Espace Employé
-- **Dashboard personnel** avec statistiques
-- **Planning personnel** avec calendrier interactif
-- **Gestion des tâches** (à venir et terminées)
-- **Profil utilisateur** avec modification des informations
+### Espace Employé
+- Dashboard personnel
+- Planning personnel avec calendrier
+- Gestion des tâches
+- Profil utilisateur
 
-### 🔔 Système de Notifications
-- Notifications en temps réel
-- Types : événement assigné, modifié, annulé, général
-- Interface de notification avec Alpine.js
-- Marquage comme lu/non lu
+### Messages de Contact
+- Formulaire de contact fonctionnel
+- Système d'archivage des messages
+- Interface admin pour gérer les demandes
+- Filtres par statut et type de projet
 
-### 🎨 Interface Utilisateur
-- Design moderne avec Tailwind CSS
-- Interface responsive
-- Animations et transitions fluides
-- Modales interactives
-- Site vitrine pour l'entreprise
-- **Validation en temps réel** avec indicateurs visuels
-- **Interface d'inscription optimisée** avec layout compact
-- **Feedback utilisateur** avec bordures colorées et messages
-
-## 🛠️ Technologies Utilisées
+## Technologies
 
 - **Backend** : Laravel 12 (PHP 8.2+)
 - **Frontend** : Tailwind CSS + Alpine.js
-- **Base de données** : SQLite (par défaut)
+- **Base de données** : SQLite
 - **Calendrier** : FullCalendar
 - **Authentification** : Laravel Breeze
 
-## 📦 Installation
+## Installation
 
 ### Prérequis
-- PHP 8.2 ou supérieur
+- PHP 8.2+
 - Composer
 - Node.js et npm
-- SQLite (ou MySQL/PostgreSQL)
 
-### Étapes d'installation
+### Étapes
 
 1. **Cloner le projet**
 ```bash
@@ -77,213 +61,110 @@ git clone <repository-url>
 cd fingers-cut
 ```
 
-2. **Installer les dépendances PHP**
+2. **Installer les dépendances**
 ```bash
 composer install
-```
-
-3. **Installer les dépendances Node.js**
-```bash
 npm install
 ```
 
-4. **Configuration de l'environnement**
+3. **Configuration**
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-5. **Configuration de la base de données**
-Modifiez le fichier `.env` pour configurer votre base de données :
-```env
-DB_CONNECTION=sqlite
-DB_DATABASE=/chemin/vers/database/database.sqlite
-```
-
-6. **Exécuter les migrations**
+4. **Base de données**
 ```bash
 php artisan migrate
-```
-
-7. **Créer des données de test (optionnel)**
-```bash
 php artisan db:seed --class=TestDataSeeder
 ```
 
-8. **Compiler les assets**
+5. **Compiler les assets**
 ```bash
 npm run build
 ```
 
-9. **Démarrer le serveur**
+6. **Démarrer le serveur**
 ```bash
 php artisan serve
 ```
 
-## 👤 Comptes de Test
+## Comptes de Test
 
 ### Administrateur
 - **Email** : admin@fingerscut.com
 - **Mot de passe** : password
 
-### Employés
-
-
-## 🔐 Codes d'Invitation de Test
-
-### Code Universel (Tous emails)
+### Codes d'Invitation
 - **Code** : `DEMO2024`
 - **Rôle** : employé
 - **Expire le** : 05/10/2025
 
-### Code Spécifique
-- **Code** : `MODAL2024`
-- **Rôle** : employé
-- **Expire le** : 05/10/2025
-
-## 🚀 Utilisation
-
-### Pour les Administrateurs
-
-1. **Dashboard** : Vue d'ensemble des utilisateurs et statistiques
-2. **Gestion des utilisateurs** : Créer, modifier, désactiver les comptes
-3. **Planning** : Créer et gérer les événements
-4. **Assignation** : Assigner des employés aux événements
-5. **Codes d'invitation** : Générer et gérer les codes d'accès
-6. **Sécurité** : Contrôler l'inscription des nouveaux utilisateurs
-
-### Pour les Employés
-
-1. **Dashboard** : Vue personnalisée avec statistiques
-2. **Planning** : Consulter les événements assignés
-3. **Tâches** : Gérer les missions à venir et terminées
-4. **Profil** : Modifier les informations personnelles
-
-### Pour les Nouveaux Utilisateurs
-
-1. **Inscription** : Utiliser un code d'invitation valide
-2. **Validation** : Respecter les critères de mot de passe sécurisé
-3. **Confirmation** : Vérifier la correspondance des mots de passe
-4. **Feedback** : Suivre les indicateurs de validation en temps réel
-
-## 📁 Structure du Projet
+## Structure du Projet
 
 ```
 fingers-cut/
 ├── app/
 │   ├── Http/Controllers/
-│   │   ├── AdminController.php      # Gestion admin
-│   │   ├── EmployeeController.php   # Gestion employés
-│   │   ├── NotificationController.php # Notifications
-│   │   └── Auth/
-│   │       └── RegisteredUserController.php # Inscription sécurisée
+│   │   ├── AdminController.php
+│   │   ├── EmployeeController.php
+│   │   └── ContactController.php
 │   ├── Models/
-│   │   ├── User.php                 # Modèle utilisateur
-│   │   ├── Event.php                # Modèle événement
-│   │   ├── Notification.php         # Modèle notification
-│   │   └── InvitationCode.php       # Modèle codes d'invitation
+│   │   ├── User.php
+│   │   ├── Event.php
+│   │   └── ContactMessage.php
 │   └── Rules/
-│       └── StrongPassword.php       # Validation mot de passe
+│       └── StrongPassword.php
 ├── database/
-│   ├── migrations/                  # Migrations de base de données
-│   └── seeders/                     # Seeders pour données de test
-├── resources/
-│   └── views/
-│       ├── admin/                   # Vues admin
-│       ├── employee/                # Vues employé
-│       ├── auth/                    # Vues d'authentification
-│       ├── components/              # Composants réutilisables
-│       └── home.blade.php           # Page d'accueil avec modals
-└── routes/
-    └── web.php                      # Routes de l'application
+│   ├── migrations/
+│   └── seeders/
+├── resources/views/
+│   ├── admin/
+│   ├── employee/
+│   └── home.blade.php
+└── routes/web.php
 ```
 
-## 🔧 Configuration Avancée
+## Utilisation
 
-### Base de données
-Pour utiliser MySQL ou PostgreSQL, modifiez le fichier `.env` :
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=fingers_cut
-DB_USERNAME=root
-DB_PASSWORD=
-```
+### Administrateur
+1. **Dashboard** : Vue d'ensemble des statistiques
+2. **Gestion des utilisateurs** : Créer et gérer les comptes
+3. **Planning** : Créer et gérer les événements
+4. **Codes d'invitation** : Générer des codes d'accès
+5. **Messages de contact** : Gérer les demandes clients
 
-### Notifications par Email
-Pour activer les notifications par email, configurez les paramètres SMTP dans `.env` :
-```env
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-password
-MAIL_ENCRYPTION=tls
-```
+### Employé
+1. **Dashboard** : Vue personnalisée
+2. **Planning** : Consulter les événements assignés
+3. **Tâches** : Gérer les missions
+4. **Profil** : Modifier les informations
 
-## 🧪 Tests
+## Tests
 
 ```bash
-# Exécuter les tests
 php artisan test
-
-# Tests avec couverture
-php artisan test --coverage
 ```
 
-## 🔒 Sécurité
+## Sécurité
 
-### Codes d'Invitation
-- **Génération sécurisée** : Codes uniques et aléatoires
-- **Expiration** : Codes avec date d'expiration configurable
-- **Usage unique** : Chaque code ne peut être utilisé qu'une fois
-- **Rôles assignés** : Attribution automatique du rôle lors de l'inscription
-- **Traçabilité** : Suivi de qui a créé et utilisé chaque code
+- Codes d'invitation uniques et expirants
+- Validation de mots de passe stricte
+- Protection CSRF
+- Middleware d'authentification et d'autorisation
+- Anonymisation RGPD des données
 
-### Validation des Mots de Passe
-- **Critères stricts** : 8+ caractères, majuscules, minuscules, chiffres, caractères spéciaux
-- **Validation en temps réel** : Feedback immédiat pendant la saisie
-- **Confirmation obligatoire** : Vérification de correspondance des mots de passe
-- **Interface intuitive** : Indicateurs visuels clairs (✓/✗)
+## API
 
-### Interface d'Inscription
-- **Modals intégrés** : Pas de redirection vers des pages externes
-- **Layout optimisé** : Interface compacte et responsive
-- **Validation côté client** : Prévention de soumission invalide
-- **Messages d'erreur** : Feedback clair et précis
+L'application expose des endpoints pour :
+- Gestion des notifications
+- Gestion des codes d'invitation
+- Gestion des messages de contact
 
-## 📝 API
+## Licence
 
-L'application expose une API REST pour les notifications :
-
-- `GET /notifications` - Liste des notifications
-- `PATCH /notifications/{id}/read` - Marquer comme lu
-- `PATCH /notifications/mark-all-read` - Tout marquer comme lu
-- `DELETE /notifications/{id}` - Supprimer une notification
-- `GET /notifications/unread-count` - Nombre de notifications non lues
-
-### API Codes d'Invitation (Admin)
-- `GET /admin/invitation-codes` - Liste des codes d'invitation
-- `POST /admin/invitation-codes` - Créer un nouveau code
-- `DELETE /admin/invitation-codes/{id}` - Révoker un code
-
-## 🤝 Contribution
-
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
-3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 📞 Support
-
-Pour toute question ou problème, contactez l'équipe de développement.
+Ce projet est sous licence MIT.
 
 ---
 
-**Finger's Cut** - Créons ensemble des histoires visuelles qui captivent et inspirent 🎬✨
+**Finger's Cut** - Système de gestion d'événements pour agence de production audiovisuelle
