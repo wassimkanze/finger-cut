@@ -167,15 +167,15 @@
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="start_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de début</label>
-                                <input id="start_time" type="text" name="start_time" placeholder="ex: 14:30" 
+                                <label for="start_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de début *</label>
+                                <input id="start_time" type="text" name="start_time" placeholder="ex: 14:30" required
                                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300">
                             </div>
                             
                             <div>
-                                <label for="end_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de fin</label>
-                                <input id="end_time" type="text" name="end_time" placeholder="ex: 16:00" 
+                                <label for="end_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de fin *</label>
+                                <input id="end_time" type="text" name="end_time" placeholder="ex: 16:00" required
                                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300">
                             </div>
@@ -422,15 +422,15 @@
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="edit_start_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de début</label>
-                                <input id="edit_start_time" type="text" name="start_time" placeholder="ex: 14:30" 
+                                <label for="edit_start_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de début *</label>
+                                <input id="edit_start_time" type="text" name="start_time" placeholder="ex: 14:30" required
                                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300">
                             </div>
                             
                             <div>
-                                <label for="edit_end_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de fin</label>
-                                <input id="edit_end_time" type="text" name="end_time" placeholder="ex: 16:00" 
+                                <label for="edit_end_time" class="block text-sm font-medium text-gray-700 mb-2">Heure de fin *</label>
+                                <input id="edit_end_time" type="text" name="end_time" placeholder="ex: 16:00" required
                                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300">
                             </div>
@@ -1195,7 +1195,7 @@
                     eventDate = eventStart.toISOString().split('T')[0];
                 }
                 
-                console.log('Event date:', eventDate, 'vs target:', dateStr); // Debug
+                console.log('Event:', event.title, 'Date:', eventDate, 'vs target:', dateStr, 'AllDay:', event.allDay); // Debug
                 return eventDate === dateStr;
             });
         }

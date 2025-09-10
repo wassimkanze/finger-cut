@@ -72,11 +72,9 @@ class AdminController extends Controller
         
         // Prepare events data for FullCalendar
         $calendarEvents = $events->map(function($event) {
-            return [
+            $eventData = [
                 'id' => $event->id,
                 'title' => $event->title,
-                'start' => $event->start_date->format('Y-m-d') . ($event->start_time ? 'T' . $event->start_time->format('H:i:s') : ''),
-                'end' => $event->end_date->format('Y-m-d') . ($event->end_time ? 'T' . $event->end_time->format('H:i:s') : ''),
                 'color' => $event->color,
                 'extendedProps' => [
                     'description' => $event->description,
@@ -85,6 +83,21 @@ class AdminController extends Controller
                     'status' => $event->getStatusDisplayName()
                 ]
             ];
+            
+            // Gérer les événements existants (qui peuvent avoir des heures null) et les nouveaux (avec heures obligatoires)
+            if ($event->start_time && $event->end_time) {
+                // Événement avec heure
+                $eventData['start'] = $event->start_date->format('Y-m-d') . 'T' . $event->start_time->format('H:i:s');
+                $eventData['end'] = $event->end_date->format('Y-m-d') . 'T' . $event->end_time->format('H:i:s');
+                $eventData['allDay'] = false;
+            } else {
+                // Événement all-day (pour les anciens événements sans heure)
+                $eventData['start'] = $event->start_date->format('Y-m-d');
+                $eventData['end'] = $event->end_date->format('Y-m-d');
+                $eventData['allDay'] = true;
+            }
+            
+            return $eventData;
         })->toArray();
         
         return view('admin.planning', compact('events', 'activeEmployees', 'calendarEvents'));
@@ -100,8 +113,8 @@ class AdminController extends Controller
             'description' => 'nullable|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'start_time' => ['nullable', 'regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/'],
-            'end_time'   => ['nullable', 'regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/'],
+            'start_time' => ['required', 'regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/'],
+            'end_time'   => ['required', 'regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/'],
             'location' => 'nullable|string|max:255',
             'street' => 'nullable|string|max:255',
             'number' => 'nullable|string|max:10',
@@ -209,8 +222,8 @@ class AdminController extends Controller
             'description' => 'nullable|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'start_time' => 'nullable|regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/',
-            'end_time' => 'nullable|regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/',
+            'start_time' => 'required|regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/',
+            'end_time' => 'required|regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/',
             'location' => 'nullable|string|max:255',
             'street' => 'nullable|string|max:255',
             'number' => 'nullable|string|max:10',
