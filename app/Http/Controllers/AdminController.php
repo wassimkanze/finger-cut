@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Event;
 use App\Models\Notification;
 use App\Models\InvitationCode;
+use App\Models\ContactMessage;
 
 class AdminController extends Controller
 {
@@ -16,8 +17,9 @@ class AdminController extends Controller
         $totalUsers = User::count();
         $totalAdmins = User::where('role', 'admin')->count();
         $totalEmployees = User::where('role', 'employé')->count();
+        $unreadContactMessages = ContactMessage::active()->unread()->count();
         
-        return view('admin.dashboard', compact('users', 'totalUsers', 'totalAdmins', 'totalEmployees'));
+        return view('admin.dashboard', compact('users', 'totalUsers', 'totalAdmins', 'totalEmployees', 'unreadContactMessages'));
     }
 
     public function users()

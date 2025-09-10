@@ -124,6 +124,29 @@
                     </div>
                 </div>
             </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-orange-100 text-orange-600">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Messages de Contact</h3>
+                        <p class="text-gray-600 mb-4">Gérer les messages reçus via le formulaire</p>
+                        <div class="flex items-center space-x-3">
+                            <a href="{{ route('admin.contact-messages') }}" class="inline-flex items-center px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition duration-300">
+                                <i class="fas fa-inbox mr-2"></i>
+                                Voir les messages
+                            </a>
+                            @if($unreadContactMessages > 0)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    {{ $unreadContactMessages }} nouveau{{ $unreadContactMessages > 1 ? 'x' : '' }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Users Table -->

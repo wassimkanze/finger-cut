@@ -284,7 +284,7 @@
                         <p class="text-gray-600 mb-4">Campagne publicitaire pour une marque de luxe</p>
                         <div class="flex items-center text-sm text-gray-500">
                             <i class="fas fa-calendar mr-2"></i>
-                            <span>2024</span>
+                            <span>2025</span>
                         </div>
                     </div>
                 </div>
@@ -299,7 +299,7 @@
                         <p class="text-gray-600 mb-4">Vidéo clip pour un artiste émergent</p>
                         <div class="flex items-center text-sm text-gray-500">
                             <i class="fas fa-calendar mr-2"></i>
-                            <span>2024</span>
+                            <span>2025</span>
                         </div>
                     </div>
                 </div>
@@ -314,7 +314,7 @@
                         <p class="text-gray-600 mb-4">Film de mariage - Moments inoubliables</p>
                         <div class="flex items-center text-sm text-gray-500">
                             <i class="fas fa-calendar mr-2"></i>
-                            <span>2024</span>
+                            <span>2025</span>
                         </div>
                     </div>
                 </div>
@@ -329,7 +329,7 @@
                         <p class="text-gray-600 mb-4">Présentation d'entreprise</p>
                         <div class="flex items-center text-sm text-gray-500">
                             <i class="fas fa-calendar mr-2"></i>
-                            <span>2024</span>
+                            <span>2025</span>
                         </div>
                     </div>
                 </div>
@@ -344,7 +344,7 @@
                         <p class="text-gray-600 mb-4">Captation live d'un concert</p>
                         <div class="flex items-center text-sm text-gray-500">
                             <i class="fas fa-calendar mr-2"></i>
-                            <span>2024</span>
+                            <span>2025</span>
                         </div>
                     </div>
                 </div>
@@ -359,7 +359,7 @@
                         <p class="text-gray-600 mb-4">Séance photo professionnelle</p>
                         <div class="flex items-center text-sm text-gray-500">
                             <i class="fas fa-calendar mr-2"></i>
-                            <span>2024</span>
+                            <span>2025</span>
                         </div>
                     </div>
                 </div>
@@ -389,7 +389,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900">Téléphone</h4>
-                                <p class="text-gray-600">+33 1 23 45 67 89</p>
+                                <p class="text-gray-600">+32 1 23 45 67 89</p>
                             </div>
                         </div>
                         
@@ -409,7 +409,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900">Adresse</h4>
-                                <p class="text-gray-600">123 Rue de la Créativité<br>75001 Paris, France</p>
+                                <p class="text-gray-600">123 Rue de la Créativité<br>1000 Bruxelles, Belgique</p>
                             </div>
                         </div>
                         
@@ -448,50 +448,64 @@
                 <div class="bg-gray-50 p-8 rounded-2xl">
                     <h3 class="text-2xl font-semibold text-gray-900 mb-6">Envoyez-nous un message</h3>
                     
-                    <form class="space-y-6">
+                    <form id="contactForm" class="space-y-6" method="POST" action="{{ route('contact.store') }}">
+                        @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
-                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <input type="text" name="first_name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
-                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <input type="text" name="last_name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             </div>
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
-                            <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <input type="tel" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type de projet</label>
-                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                <option>Sélectionnez un type</option>
-                                <option>Film publicitaire</option>
-                                <option>Clip musical</option>
-                                <option>Vidéo corporate</option>
-                                <option>Événement</option>
-                                <option>Photographie</option>
-                                <option>Autre</option>
+                            <select name="project_type" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Sélectionnez un type</option>
+                                <option value="Film publicitaire">Film publicitaire</option>
+                                <option value="Clip musical">Clip musical</option>
+                                <option value="Vidéo corporate">Vidéo corporate</option>
+                                <option value="Événement">Événement</option>
+                                <option value="Photographie">Photographie</option>
+                                <option value="Autre">Autre</option>
                             </select>
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                            <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                            <textarea name="message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
                         </div>
                         
-                        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                        <button type="submit" id="contactSubmitBtn" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
                             Envoyer le message
                         </button>
                     </form>
+                    
+                    <!-- Messages d'erreur -->
+                    <div id="contactErrors" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-circle text-red-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">Erreurs de validation</h3>
+                                <div id="contactErrorsList" class="mt-2 text-sm text-red-700"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -532,14 +546,14 @@
                     <h4 class="text-lg font-semibold mb-4">Contact</h4>
                     <ul class="space-y-2 text-gray-400">
                         <li>contact@fingerscut.com</li>
-                        <li>+33 1 23 45 67 89</li>
-                        <li>123 Rue de la Créativité<br>75001 Paris, France</li>
+                        <li>+32 1 23 45 67 89</li>
+                        <li>123 Rue de la Créativité<br>1000 Bruxelles, Belgique</li>
                     </ul>
                 </div>
             </div>
             
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Finger's Cut. Tous droits réservés.</p>
+                <p>&copy; 2025 Finger's Cut. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
@@ -811,6 +825,25 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Contact Success Modal -->
+    <div id="contactSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="contactSuccessModalContent">
+            <div class="text-center">
+                <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
+                    <i class="fas fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Message envoyé !</h3>
+                <p id="contactSuccessMessage" class="text-gray-600 mb-6">
+                    Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.
+                </p>
+                <button onclick="closeContactSuccessModal()" 
+                        class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                    Fermer
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1340,6 +1373,118 @@
                 }, 500);
             }
         }
+
+        // Contact Form Functions
+        function openContactSuccessModal(message) {
+            const modal = document.getElementById('contactSuccessModal');
+            const modalContent = document.getElementById('contactSuccessModalContent');
+            const messageElement = document.getElementById('contactSuccessMessage');
+            
+            if (message) {
+                messageElement.textContent = message;
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeContactSuccessModal() {
+            const modal = document.getElementById('contactSuccessModal');
+            const modalContent = document.getElementById('contactSuccessModalContent');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+            
+            document.body.style.overflow = 'auto';
+        }
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const submitBtn = document.getElementById('contactSubmitBtn');
+            const errorsDiv = document.getElementById('contactErrors');
+            const errorsList = document.getElementById('contactErrorsList');
+            
+            // Hide previous errors
+            errorsDiv.classList.add('hidden');
+            
+            // Disable submit button and show loading
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Envoi en cours...';
+            submitBtn.disabled = true;
+            
+            // Prepare form data
+            const formData = new FormData(form);
+            
+            // Send AJAX request
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reset form
+                    form.reset();
+                    
+                    // Show success modal
+                    openContactSuccessModal(data.message);
+                } else {
+                    // Show errors
+                    if (data.errors) {
+                        let errorsHtml = '<ul class="list-disc list-inside space-y-1">';
+                        Object.values(data.errors).forEach(error => {
+                            if (Array.isArray(error)) {
+                                error.forEach(err => {
+                                    errorsHtml += `<li>${err}</li>`;
+                                });
+                            } else {
+                                errorsHtml += `<li>${error}</li>`;
+                            }
+                        });
+                        errorsHtml += '</ul>';
+                        errorsList.innerHTML = errorsHtml;
+                    } else {
+                        errorsList.innerHTML = `<p>${data.message || 'Une erreur est survenue.'}</p>`;
+                    }
+                    errorsDiv.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorsList.innerHTML = '<p>Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer.</p>';
+                errorsDiv.classList.remove('hidden');
+            })
+            .finally(() => {
+                // Re-enable submit button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // Close contact success modal when clicking outside
+        document.getElementById('contactSuccessModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeContactSuccessModal();
+            }
+        });
 
         // Initialize parallax balls when page loads
         document.addEventListener('DOMContentLoaded', function() {

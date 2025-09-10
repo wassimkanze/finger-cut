@@ -6,8 +6,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Contact form route
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -25,6 +29,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/invitation-codes', [AdminController::class, 'invitationCodes'])->name('invitation-codes');
     Route::post('/invitation-codes', [AdminController::class, 'generateInvitationCode'])->name('invitation-codes.generate');
     Route::delete('/invitation-codes/{code}', [AdminController::class, 'revokeInvitationCode'])->name('invitation-codes.revoke');
+    
+    // Contact messages management
+    Route::get('/contact-messages', [ContactController::class, 'indexAdmin'])->name('contact-messages');
+    Route::patch('/contact-messages/{message}/read', [ContactController::class, 'markAsRead'])->name('contact-messages.read');
+    Route::patch('/contact-messages/{message}/unread', [ContactController::class, 'markAsUnread'])->name('contact-messages.unread');
+    Route::patch('/contact-messages/{message}/archive', [ContactController::class, 'archive'])->name('contact-messages.archive');
+    Route::patch('/contact-messages/{message}/unarchive', [ContactController::class, 'unarchive'])->name('contact-messages.unarchive');
+    Route::get('/contact-messages/unread-count', [ContactController::class, 'unreadCount'])->name('contact-messages.unread-count');
 });
 
 // Employee routes
